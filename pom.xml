@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ems</groupId>
+    <artifactId>EventManagementSystem</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging> <!-- Ensure packaging is 'war' -->
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source> <!-- Or 1.8, 17, etc., compatible with your Java setup -->
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jakarta.servlet.api.version>5.0.0</jakarta.servlet.api.version> <!-- For Tomcat 10+, Servlet 5.0 -->
+        <jakarta.jstl.version>2.0.0</jakarta.jstl.version> <!-- For JSTL 2.0 -->
+        <jakarta.ws.rs-api.version>3.0.0</jakarta.ws.rs-api.version> <!-- JAX-RS 3.0 for Jakarta EE 9 -->
+        <!-- Or for Jakarta EE 10 (JAX-RS 3.1): <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version> -->
+        <mysql.connector.version>8.0.28</mysql.connector.version>
+        <jbcrypt.version>0.4</jbcrypt.version>
+    </properties>
+
+    <dependencies>
+        <!-- Jakarta EE Servlet API (for Tomcat 10+ / Jakarta EE 9+) -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet.api.version}</version>
+            <scope>provided</scope> <!-- 'provided' because Tomcat provides this at runtime -->
+        </dependency>
+
+
+        <!-- Jakarta EE JSTL API and Implementation -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>${jakarta.jstl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>${jakarta.jstl.version}</version>
+        </dependency>
+        
+        <dependency>
+    <groupId>com.stripe</groupId>
+    <artifactId>stripe-java</artifactId>
+    <version>24.0.0</version>
+</dependency>
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20231013</version>
+</dependency>
+
+        <!-- Jakarta EE JAX-RS API (RESTful Web Services) -->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>${jakarta.ws.rs-api.version}</version>
+            <scope>provided</scope> <!-- 'provided' because application server provides this -->
+        </dependency>
+
+        <!-- MySQL JDBC Driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+        </dependency>
+
+        <!-- For password hashing (jBCrypt) -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>${jbcrypt.version}</version>
+        </dependency>
+
+        <!-- JSP API (often needed for compilation, but 'provided' by server) -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>3.0.0</version> <!-- Compatible with Jakarta EE 9/10 -->
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <!-- Add any other Jakarta EE API dependencies if you use them (e.g., CDI, JPA) -->
+        <!-- Example for CDI:
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>3.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
+        <dependency>
+    <groupId>jakarta.mail</groupId>
+    <artifactId>jakarta.mail-api</artifactId>
+    <version>2.1.2</version> </dependency>
+<dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>jakarta.mail</artifactId>
+    <version>2.0.1</version> </dependency>
+<!-- For SMS: Twilio SDK -->
+<dependency>
+    <groupId>com.twilio.sdk</groupId>
+    <artifactId>twilio</artifactId>
+    <version>9.1.3</version>  <!-- Use the latest version -->
+</dependency>
+<!-- For SLF4J Logging (if not already added) -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>2.0.7</version>
+</dependency>
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-simple</artifactId>
+    <version>2.0.7</version>  <!-- Or use Logback for production -->
+</dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.13.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-profile</artifactId>
+            <version>3.1.15-GA</version>
+            <type>jar</type>
+        </dependency>
+        <!-- Jackson Databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.15.2</version>
+</dependency>
+
+<!-- Jackson Core -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.15.2</version>
+</dependency>
+
+<!-- Jackson Annotations -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+    <version>2.15.2</version>
+</dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

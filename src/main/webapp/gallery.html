@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - EMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --accent-color: #ff6b6b;
+            --light-grey: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --text-color: #333;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-grey);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Header & Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: #fff;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.7rem 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            transition: all 0.3s;
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #0056b3);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .section {
+            padding: 120px 5% 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-title {
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+    position: relative;
+    display: block; /* Changed from inline-block to block */
+    width: 100%; /* Ensure it takes full width */
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), #00c6ff);
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Gallery Filters */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 30px;
+            font-family: var(--font-family);
+            font-weight: 500;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            background: white;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 25px;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-item-content {
+            transform: translateY(0);
+        }
+
+        .gallery-item-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .gallery-item-content p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Category Badges */
+        .gallery-item::before {
+            content: attr(data-category);
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .gallery-item[data-category="wedding"]::before {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+
+        .gallery-item[data-category="corporate"]::before {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+
+        .gallery-item[data-category="party"]::before {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 4rem 5% 1rem;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .footer-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 1.5rem;
+            color: #fff;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h4:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-color);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .footer-column p {
+            color: #bdc3c7;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: #34495e;
+            border-radius: 50%;
+            transition: all 0.3s;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        /* Animations */
+        .animate-fadeInDown {
+            opacity: 0;
+            transform: translateY(-30px);
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
+
+        .animate-fadeInUp {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-zoomIn {
+            opacity: 0;
+            transform: scale(0.9);
+            animation: zoomIn 0.6s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        .section-animated {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .section-animated.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 2001;
+        }
+
+        .lightbox-close:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .section {
+                padding: 120px 4% 60px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: white;
+                transition: left 0.3s;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                width: 100%;
+            }
+
+            .section {
+                padding: 100px 4% 40px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .gallery-filters {
+                gap: 10px;
+                padding: 0 10px;
+            }
+
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            footer {
+                padding: 4rem 4% 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 100px 3% 30px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                padding: 0 10px;
+            }
+
+            .gallery-item img {
+                height: 250px;
+            }
+
+            .gallery-item-content {
+                padding: 20px;
+            }
+
+            .gallery-item-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .footer-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 200px;
+                justify-content: center;
+            }
+            
+            footer {
+                padding: 3rem 3% 1rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .section {
+                padding: 100px 2% 25px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .gallery-grid {
+                gap: 20px;
+            }
+            
+            .gallery-item {
+                margin: 0 5px;
+            }
+            
+            footer {
+                padding: 2rem 2% 1rem;
+            }
+            
+            .lightbox-content {
+                max-width: 95%;
+                max-height: 95%;
+            }
+            
+            .lightbox-close {
+                top: 10px;
+                right: 15px;
+                font-size: 1.5rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html"><img class="logo-img" src="images/logo.jpg" alt="EMS-Logo"></a>
+            </div>
+            <div class="hamburger" id="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="nav-menu" id="nav-menu"> 
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.jsp">Our Services</a></li>
+                    <li><a href="vendors">Our Vendors</a></li>
+                    <li><a href="gallery.html" class="active">Gallery</a></li>
+                    <li><a href="blog.jsp">Blog</a></li>
+                    <li><a href="contact.jsp">Contact Us</a></li>
+                    <li><a href="login.jsp"> <button class="btn btn-primary"><i class="fas fa-user-circle"></i>Login</button></a></li>
+                </ul>                 
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main>
+        <section class="section section-animated">
+            <h2 class="section-title animate-fadeInDown">Our Event Gallery</h2>
+            <p class="section-subtitle animate-fadeInUp">
+                Explore our portfolio of memorable events and get inspired for your next celebration
+            </p>
+
+            <div class="gallery-filters animate-fadeInUp delay-1">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i> All Events
+                </button>
+                <button class="filter-btn" data-filter="wedding">
+                    <i class="fas fa-ring"></i> Weddings
+                </button>
+                <button class="filter-btn" data-filter="corporate">
+                    <i class="fas fa-building"></i> Corporate
+                </button>
+                <button class="filter-btn" data-filter="party">
+                    <i class="fas fa-champagne-glasses"></i> Parties
+                </button>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Weddings -->
+                <div class="gallery-item animate-zoomIn wedding" data-category="wedding">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Traditional Nepali Wedding">
+                    <div class="gallery-item-content">
+                        <h3>Traditional Nepali Wedding</h3>
+                        <p>A beautiful ceremony celebrating love and tradition with authentic cultural elements.</p>
+                    </div>
+                </div>
+                <div class="gallery-item animate-zoomIn wedding" data-category="wedding">
+                    <img src="images/wedding4.jpg" alt="Elegant Reception Decor">
+                    <div class="gallery-item-content">
+                        <h3>Elegant Reception Decor</h3>
+                        <p>Stunning floral arrangements and sophisticated lighting for a grand wedding reception.</p>
+                    </div>
+                </div>
+                <div class="gallery-item animate-zoomIn wedding" data-category="wedding">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Serene Outdoor Wedding">
+                    <div class="gallery-item-content">
+                        <h3>Serene Outdoor Wedding</h3>
+                        <p>A picturesque outdoor setting creating magical moments for a memorable wedding day.</p>
+                    </div>
+                </div>
+
+                <!-- Corporate -->
+                <div class="gallery-item animate-zoomIn corporate" data-category="corporate">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Professional Conference">
+                    <div class="gallery-item-content">
+                        <h3>Professional Conference</h3>
+                        <p>State-of-the-art setup and seamless organization for a successful business conference.</p>
+                    </div>
+                </div>
+                <div class="gallery-item animate-zoomIn corporate" data-category="corporate">
+                    <img src="images/corporate5.jpg" alt="Grand Product Launch">
+                    <div class="gallery-item-content">
+                        <h3>Grand Product Launch</h3>
+                        <p>An impactful launch event showcasing new innovations with immersive experiences.</p>
+                    </div>
+                </div>
+                <div class="gallery-item animate-zoomIn corporate" data-category="corporate">
+                    <img src="images/corporate4.jpeg" alt="Engaging Team Building">
+                    <div class="gallery-item-content">
+                        <h3>Engaging Team Building</h3>
+                        <p>Fun and interactive activities designed to strengthen corporate team dynamics.</p>
+                    </div>
+                </div>
+
+                <!-- Parties -->
+                <div class="gallery-item animate-zoomIn party" data-category="party">
+                    <img src="https://images.unsplash.com/photo-1532634922-8fe0b757fb13?ixlib=rb-1.2.1&auto=format&fit=crop&w=1952&q=80" alt="Vibrant Birthday Bash">
+                    <div class="gallery-item-content">
+                        <h3>Vibrant Birthday Bash</h3>
+                        <p>A lively birthday party with custom decorations and personalized themes.</p>
+                    </div>
+                </div>
+                <div class="gallery-item animate-zoomIn party" data-category="party">
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Romantic Anniversary Dinner">
+                    <div class="gallery-item-content">
+                        <h3>Romantic Anniversary Dinner</h3>
+                        <p>An intimate and elegant dinner setup for celebrating special relationship milestones.</p>
+                    </div>
+                </div>
+                <div class="gallery-item animate-zoomIn party" data-category="party">
+                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Joyful Graduation Party">
+                    <div class="gallery-item-content">
+                        <h3>Joyful Graduation Party</h3>
+                        <p>Celebrating academic achievements with friends and family in a festive atmosphere.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                 <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.jsp">Our Services</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.jsp">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="services.jsp">Wedding Planning</a></li>
+                    <li><a href="services.jsp">Corporate Events</a></li>
+                    <li><a href="services.jsp">Private Parties</a></li>
+                    <li><a href="services.jsp">Vendor Management</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Kathmandu, Nepal</p>
+                <p><i class="fas fa-phone"></i> +977 9876543210</p>
+                <p><i class="fas fa-envelope"></i> info@ems.com.np</p>
+            </div>
+            <div class="footer-column">
+                <h4>Follow Us</h4>
+                <p>Stay connected with us on social media for updates and event inspirations.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 EMS - Event Management System. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-image" src="" alt="">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hamburger menu functionality
+            const hamburger = document.getElementById('hamburger-menu');
+            const navMenu = document.getElementById('nav-menu');
+
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                hamburger.innerHTML = navMenu.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.section-animated').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Gallery Filtering Functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to the clicked button
+                    this.classList.add('active');
+
+                    const filterValue = this.dataset.filter;
+
+                    galleryItems.forEach(item => {
+                        const itemCategory = item.dataset.category;
+
+                        if (filterValue === 'all' || itemCategory === filterValue) {
+                            item.style.display = 'block';
+                            // Re-trigger animation
+                            item.classList.remove('animate-zoomIn');
+                            void item.offsetWidth;
+                            item.classList.add('animate-zoomIn');
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const imgSrc = this.querySelector('img').src;
+                    lightboxImage.src = imgSrc;
+                    lightbox.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            lightboxClose.addEventListener('click', function() {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Close lightbox with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+                    lightbox.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+# Apache Tomcat specific ignores
+*.war
+*.ear
+target/
+build/
+dist/
+
+# Tomcat deployment directories
+/webapps/your-project*
+/work/
+/logs/
+/temp/
+
+# Compiled classes
+*.class
+
+# IDE files
+.settings/
+.project
+.classpath
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Log files
+*.log
+
+# Database files
+*.db
+*.sqlite
+
+# OS files
+.DS_Store
+Thumbs.db

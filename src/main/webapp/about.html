@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - EMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --accent-color: #ff6b6b;
+            --light-grey: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --text-color: #333;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-grey);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Header & Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: #fff;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.7rem 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            transition: all 0.3s;
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #0056b3);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .section {
+            padding: 120px 5% 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--dark-color);
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), #00c6ff);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* About Content */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 80px;
+            width: 100%;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            color: var(--dark-color);
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .about-text h3:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+            bottom: -8px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-image:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0,123,255,0.1), rgba(255,107,107,0.1));
+            z-index: 1;
+        }
+
+        /* Mission Vision Section */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        .mission-vision-item {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .mission-vision-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), #00c6ff);
+        }
+
+        .mission-vision-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .mission-vision-item i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .mission-vision-item h4 {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .mission-vision-item p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary-color), #00c6ff);
+            padding: 80px 5%;
+            margin: 80px 0;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            width: 100%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Team Section */
+        .team-section {
+            margin: 80px 0;
+            width: 100%;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.4s, box-shadow 0.4s;
+            text-align: center;
+            width: 100%;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .member-image {
+            height: 250px;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color), #00c6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        .member-info {
+            padding: 25px 20px;
+        }
+
+        .member-info h4 {
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .member-info p {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .member-info .bio {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 4rem 5% 1rem;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .footer-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 1.5rem;
+            color: #fff;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h4:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-color);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .footer-column p {
+            color: #bdc3c7;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: #34495e;
+            border-radius: 50%;
+            transition: all 0.3s;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        /* Animations */
+        .animate-fadeInDown {
+            opacity: 0;
+            transform: translateY(-30px);
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
+
+        .animate-fadeInUp {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-slideInLeft {
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+
+        .animate-slideInRight {
+            opacity: 0;
+            transform: translateX(50px);
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        .section-animated {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .section-animated.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .section {
+                padding: 120px 4% 60px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+            
+            .mission-vision {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: white;
+                transition: left 0.3s;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                width: 100%;
+            }
+
+            .section {
+                padding: 100px 4% 40px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .about-text h3 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            footer {
+                padding: 4rem 4% 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 100px 3% 30px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                padding: 0 10px;
+            }
+
+            .about-text h3 {
+                font-size: 1.6rem;
+            }
+
+            .mission-vision {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .footer-columns {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .stats-section {
+                padding: 60px 3%;
+                margin: 60px 0;
+            }
+            
+            footer {
+                padding: 3rem 3% 1rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .section {
+                padding: 100px 2% 25px;
+            }
+            
+            .about-text h3 {
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .mission-vision-item,
+            .team-member {
+                margin: 0;
+            }
+            
+            footer {
+                padding: 2rem 2% 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html"><img class="logo-img" src="images/logo.jpg" alt="EMS-Logo"></a>
+            </div>
+            <div class="hamburger" id="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+             <div class="nav-menu" id="nav-menu"> 
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html" class="active">About Us</a></li>
+                    <li><a href="services.jsp">Our Services</a></li>
+                    <li><a href="vendors">Our Vendors</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="blog.jsp">Blog</a></li>
+                    <li><a href="contact.jsp" >Contact Us</a></li>
+                    <li><a href="login.jsp"> <button class="btn btn-primary"><i class="fas fa-user-circle"></i>Login</button></a></li>
+                </ul>                 
+            </div>
+        </nav>
+    </header>
+     
+    <!-- Main Content Area -->
+    <main>
+        <section class="section section-animated"> 
+            <h2 class="section-title animate-fadeInDown">About Our Event Management System</h2> 
+            <div class="about-content">
+                <div class="about-text animate-fadeInUp"> 
+                    <h3>Modernizing Event Planning in Nepal</h3>
+                    <p>The Event Management System (EMS) is a web-based platform designed to revolutionize the event planning industry in Nepal. We cater to the growing demand for efficient management of weddings, corporate events, and private parties.</p>
+                    <p>In the Nepali market, where events are deeply rooted in culture and tradition, there is an increasing need for digital solutions to streamline the complex processes of venue booking, vendor coordination, guest management, and financial tracking.</p>
+                    <p>Our project helps Nepal's event industry move into the digital age—keeping our traditions alive while making planning easier. It opens up new opportunities for local vendors and helps families and businesses organize events without the usual hassle.</p>
+                </div>
+                <div class="about-image animate-fadeInUp delay-1"> 
+                    <img src="images/wedding.png" alt="About EMS">
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-section animate-fadeInUp">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Events Managed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">Trusted Vendors</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Client Satisfaction</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mission-vision">
+                <div class="mission-vision-item animate-slideInLeft"> 
+                    <i class="fas fa-bullseye"></i>
+                    <h4>Our Mission</h4>
+                    <p>To empower individuals and businesses in Nepal with a seamless, efficient, and culturally sensitive platform for planning and executing memorable events.</p>
+                </div>
+                <div class="mission-vision-item animate-fadeInUp delay-2"> 
+                    <i class="fas fa-eye"></i>
+                    <h4>Our Vision</h4>
+                    <p>To be the leading digital solution for event management in Nepal, fostering growth for local vendors and simplifying event planning for everyone.</p>
+                </div>
+                <div class="mission-vision-item animate-slideInRight delay-3"> 
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h4>Our Values</h4>
+                    <p>Integrity, Innovation, Customer-Centricity, Cultural Respect, and Community Empowerment.</p>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team-section">
+                <h2 class="section-title animate-fadeInDown">Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member animate-fadeInUp">
+                        <div class="member-image">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="member-info">
+                            <h4>Samir Thapa</h4>
+                            <p>Founder & CEO</p>
+                            <p class="bio">With over 10 years in event management, Samir leads our vision to transform Nepal's event industry.</p>
+                        </div>
+                    </div>
+                    <div class="team-member animate-fadeInUp delay-1">
+                        <div class="member-image">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <div class="member-info">
+                            <h4>Anita Sharma</h4>
+                            <p>Operations Director</p>
+                            <p class="bio">Anita ensures every event runs smoothly with her exceptional organizational skills and attention to detail.</p>
+                        </div>
+                    </div>
+                    <div class="team-member animate-fadeInUp delay-2">
+                        <div class="member-image">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="member-info">
+                            <h4>Raj Gurung</h4>
+                            <p>Technical Lead</p>
+                            <p class="bio">Raj oversees our digital platform development, ensuring seamless user experiences and innovative features.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                 <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.jsp">Our Services</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.jsp">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="services.jsp">Wedding Planning</a></li>
+                    <li><a href="services.jsp">Corporate Events</a></li>
+                    <li><a href="services.jsp">Private Parties</a></li>
+                    <li><a href="services.jsp">Vendor Management</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Kathmandu, Nepal</p>
+                <p><i class="fas fa-phone"></i> +977 9876543210</p>
+                <p><i class="fas fa-envelope"></i> info@ems.com.np</p>
+            </div>
+            <div class="footer-column">
+                <h4>Follow Us</h4>
+                <p>Stay connected with us on social media for updates and event inspirations.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 EMS - Event Management System. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hamburger menu functionality
+            const hamburger = document.getElementById('hamburger-menu');
+            const navMenu = document.getElementById('nav-menu');
+
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                hamburger.innerHTML = navMenu.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.section-animated').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
