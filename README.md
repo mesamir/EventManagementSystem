@@ -33,4 +33,4 @@ A modular, database-driven web application designed to streamline event planning
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/ems.git
+   git clone https://github.com/mesamir/EventManagementSystem.git
